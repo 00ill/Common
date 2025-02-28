@@ -1,27 +1,11 @@
 #include "PID.h"
 
-float32_t SaturateValue(float32_t targetValue, float32_t minValue, float32_t maxValue)
+void PID_Calculation(PID_Controller *pid, float32 targetValue, float32 measuredValue)
 {
-    if (targetValue < minValue)
-    {
-        return minValue;
-    }
-    else if (targetValue > maxValue)
-    {
-        return maxValue;
-    }
-    else
-    {
-        return targetValue;
-    }
-}
-
-void PID_Calculation(PID_Controller *pid, float32_t targetValue, float32_t measuredValue)
-{
-    float32_t tempResult = 0;
-    float32_t err = targetValue - measuredValue;
+    float32 tempResult = 0;
+    float32 err = targetValue - measuredValue;
     pid->integral += err * pid->coefficient.i;
-    float32_t derivative = ((err - pid->previousErr) * pid->coefficient.d) / pid->deltaT;
+    float32 derivative = ((err - pid->previousErr) * pid->coefficient.d) / pid->deltaT;
 
     if (pid->isApplyAntiWindup == true)
     {
@@ -42,6 +26,6 @@ void PID_Calculation(PID_Controller *pid, float32_t targetValue, float32_t measu
     }
 
     pid->beforeSaturatedResult = tempResult;
-    pid->result = SaturateValue(tempResult, pid->resultSaturation.min, pid->resultSaturation.max);
+    pid->result = ClampValue(tempResult, pid->resultSaturation.min, pid->resultSaturation.max);
     pid->previousErr = err;
 }
