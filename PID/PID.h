@@ -32,9 +32,6 @@ typedef struct
     float32 previousErr;
 } PID_Controller;
 
-extern PID_Controller voltage_controller;
-extern PID_Controller current_controller;
-
 void PID_Calculation(PID_Controller *pid, float32 targetValue, float32 measuredValue);
 
 #endif
