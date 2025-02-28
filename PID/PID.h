@@ -2,20 +2,21 @@
 #define PID_H
 
 #include "Define.h"
+#include "Utils.h"
 
 typedef struct
 {
-    float32_t p;
-    float32_t i;
-    float32_t d;
-    float32_t anti_windup;
-    float32_t feed_forward;
+    float32 p;
+    float32 i;
+    float32 d;
+    float32 anti_windup;
+    float32 feed_forward;
 } Coefficient;
 
 typedef struct 
 {
-    float32_t min;
-    float32_t max;
+    float32 min;
+    float32 max;
 } ResultSaturation;
 
 typedef struct
@@ -24,15 +25,16 @@ typedef struct
     bool isApplyAntiWindup;
     bool isApplyFeedForward;
     ResultSaturation resultSaturation;
-    float32_t integral;
-    float32_t result;
-    float32_t beforeSaturatedResult;
-    float32_t deltaT;
-    float32_t previousErr;
+    float32 integral;
+    float32 result;
+    float32 beforeSaturatedResult;
+    float32 deltaT;
+    float32 previousErr;
 } PID_Controller;
 
+extern PID_Controller voltage_controller;
+extern PID_Controller current_controller;
 
-float32_t SaturateValue(float32_t targetValue, float32_t minValue, float32_t maxValue);
-void PID_Calculation(PID_Controller *pid, float32_t targetValue, float32_t measuredValue);
+void PID_Calculation(PID_Controller *pid, float32 targetValue, float32 measuredValue);
 
 #endif
